@@ -1,0 +1,146 @@
+# C -Pointers
+
+## What is pointers
+A pointer is a variable which store address of other variable of same data type.
+
+**How to declare a pointer**
+>data-type *variable_name; 
+>eg.
+>int *ptr;
+>
+**How to initialize a pointer**
+>int x = 20 ; //declaration and initialization of a variable of int type
+>int *ptr = &x; //initialize a int type pointer with an address of x
+>
+>Note: (&) act as 'address of'
+
+![](https://i.imgur.com/W30t8nI.png)
+
+## Small programme to illustrate use of pointers and accessing address of a variable
+
+>#include<stdio.h>
+void main()
+{
+    &nbsp; &nbsp; &nbsp; int x=20;
+    &nbsp; &nbsp; &nbsp; int *ptr=&x;
+	&nbsp; &nbsp; &nbsp; printf("x is stored at %u\n",&x); &nbsp; // '&x' gives address of variable x
+	&nbsp; &nbsp; &nbsp; printf("x is stored at %u\n",ptr); &nbsp; //ptr contains address of x
+	&nbsp; &nbsp; &nbsp; printf("value of x is %d\n",x);
+    &nbsp; &nbsp; &nbsp; printf("value of x is %d\n",\*(&x)); &nbsp; // '\*' is used to access value prersent at given address which in this case is '&x'
+	&nbsp; &nbsp; &nbsp; printf("value of x is %d\n",\*(ptr)); &nbsp; //as ptr contains address of x so'\*(ptr)' will give value of the address stored in ptr
+}
+
+**output**
+![](https://i.imgur.com/ddWwjb1.png)
+
+## Pointer expression
+y= *p1 * *p2; &nbsp; //same as (*p1) * (*p2)
+
+y= *p1 + *p2;
+
+y= y* - *p2/ *p1; &nbsp; //same as (y * (-(*p2)))/(*p1), space between '/' and '\*' is important
+
+## Pointer incriment and scale factor
+
+suppose address stored in pointer p of int type is 2500.
+p++ will cause the pointer value to be incrimented by the length of the data type it points to (i.e. new address p points to is '2504' not '2501') and this length is called scale factor.
+
+So you can say p = p + 2 is equivalent to
+p = p + (2 * (scale factor of int))
+p = 2500 + (2 * 4)
+p = 2508
+
+**Scale factor of different data-type for 64-bit machines**
+
+char &nbsp; &nbsp; &nbsp; &nbsp;    &nbsp; &nbsp; &nbsp; 1 byte
+int &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    &nbsp; &nbsp; &nbsp; &nbsp;4 bytes
+float &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4 bytes
+long int &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;8 bytes
+double &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 8 bytes
+
+## Arrays and Pointers
+An array name itself is a constant pointer pointing to the first element.
+>int x[5] = {100,200,300,400,500};
+
+![](https://i.imgur.com/tzEjH3M.png)
+
+Here name x is a constant pointer pointing to the the first element x[0], so value of x is 2500.
+
+x = &x[0]
+x = 2500
+
+You can assign a pointer to first element of x[0] as
+> int *ptr = x;
+> or
+> int *ptr = &x[0];
+
+by incrimenting ptr we can access every index of array x.
+ptr     = &x[0] = 2500
+ptr + 1 = &x[1] = 2504
+ptr + 2 = &x[2] = 2508
+ptr + 3 = &x[3] = 2512
+ptr + 4 = &x[4] = 2516
+
+to access the value you have to use '\*'
+
+\*(ptr)     = x[0] = 100
+\*(ptr + 1) = x[1] = 200
+\*(ptr + 2) = x[2] = 300
+\*(ptr + 3) = x[3] = 400
+\*(ptr + 4) = x[4] = 500
+
+Let's see a programme to traverse an array using pointer.
+>#include<stdio.h>
+void main()
+{
+	&nbsp; &nbsp; int x[5] = {100,200,300,400,500};
+	&nbsp; &nbsp; int \*ptr = x;  //assigning base address of an array x to ptr
+	&nbsp; &nbsp; int i;
+	&nbsp; &nbsp; for(i=0; i<5; i++)
+	&nbsp; &nbsp; {
+	&nbsp; &nbsp;&nbsp; &nbsp; printf("%d ",\*(ptr+i));
+	&nbsp; &nbsp; }
+}
+
+**Output**
+![](https://i.imgur.com/8p9Z8rE.png)
+
+we can also manipulate a 2-D array using pointers
+
+![](https://i.imgur.com/VBk2FOU.png)
+
+where, **\*(\*(ptr + i) + j) = x[i][j]**
+
+There is also a simple way to handling a pointer to 2-D array, i.e. **ptr[i][j] = \*(\*(ptr + i) + j) = x[i][j]**
+
+## Strings and Pointers
+
+Just like array we can manipulate a string using pointers. All the basics remain same as array.
+
+Pointers to an character array declared and initialized as 
+>char str[5] = "abcd"; &nbsp; // last cell is reserved for '\0' character
+>char *s = str; &nbsp; // assigning base address of str to pointer s
+
+![](https://i.imgur.com/N96G71F.png)
+
+
+We can also declare a string using pointer variable of type char, e.g.
+>char *s = "abcd";
+
+This will create an string and store its base address to the pointer s.
+
+![](https://i.imgur.com/Ysg4pTt.png)
+
+Small programme to illustrate use of pointers on character array
+>#include<stdio.h>
+#include<string.h>
+void main()
+{
+	&nbsp; &nbsp; &nbsp; char str[7]="string";
+	&nbsp; &nbsp; &nbsp; char \*s = str;
+	&nbsp; &nbsp; &nbsp; puts(s);
+	&nbsp; &nbsp; &nbsp; char \*s1 = "string2";
+	&nbsp; &nbsp; &nbsp; puts(s1);
+}
+
+![](https://i.imgur.com/Sl0ma79.png)
